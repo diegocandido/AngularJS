@@ -1,0 +1,98 @@
+<!doctype html>
+<html ng-app>
+	<head>
+		<title>Lista</title>
+    <meta charset="utf-8">
+		<script src="lib/angular-1.0.1.js"></script>
+		<script src="app/lista.js"></script>
+        <script src="https://yandex.st/highlightjs/7.3/highlight.min.js"></script>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+        <script type="text/javascript" src="lib/jquery.mask.js"></script>
+        <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	</head>
+	<body>
+        <div class="container" ng-controller="ListaController">
+	 <div class="row">
+     <br>
+     <br>
+        <form class="form-inline form-group" name="formItem">       
+      <div class="checkbox">
+      	<input type="radio" name="rd" value="cpf" /> CPF</label><br>
+ 	  	<input type="radio" name="rd" value="cnpj" /> CNPJ</label>  
+     </div>
+     <div id="palco">
+    	<div id="cpf">
+			<input type="text" ng-model="item.nome" placeholder="Nome" class="form-control">
+            <input type="text" ng-model="item.cpf" placeholder="CPF" class="form-control cpf">
+             <select name="repeatSelect" id="repeatSelect" ng-model="data.model">
+      		<option ng-repeat="option in dados2" value="A">{{option.empresa}}</option>
+    		</select>
+        <button class="btn btn-primary" ng-click="adicionaCPF()">Add</button>
+        </div>
+    	<div id="cnpj">
+			 <input type="text" ng-model="item.empresa" placeholder="Empresa" class="form-control">
+             <input type="text" ng-model="item.cnpj" placeholder="CNPJ" class="form-control cnpj"> 
+       <button class="btn btn-primary" ng-click="adicionaCNPJ()">Add</button>      	
+        </div>
+  	</div>
+    <br>
+    </form>
+      </div>	
+            
+            <div class="row">
+				<div class="page-header">
+					<h1></h1>
+				<input ng-model="busca" placeholder="Buscar Empresa" class="form-control">
+                </div>
+			</div>
+			<div class="row">
+        <table id="lista-compras" class="table table-striped">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>CPF</th>
+              <th>Empresa</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody> 
+            <tr ng-repeat="item in itens | filter : busca">
+              <td>{{ item.nome }}</td>
+              <td>{{ item.cpf }}</td>
+              <td>{{ item.empresa }}</td>
+             <td><button ng-click="itens.splice($index, 1)" aria-label="Remove" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button></td>
+            </tr>
+          </tbody>
+        </table>
+			</div>
+		</div>
+<script type="text/javascript">
+  $(function() {
+    $('.cpf').mask('000.000.000-00', {reverse: true});
+	$('.cnpj').mask('00.000.000/0000-00', {reverse: true});
+  });
+/***********************************************************/
+  $(document).ready(function(){
+  var $divs = $("#palco > div");
+
+  //mostrando no onload da página
+  $divs.hide();
+  $( '#' + $("input[name='rd']:checked").val() ).show('fast');
+
+  //mostrando ao clicar no radio
+  $("input[name='rd']").on('click', function(){
+    $divs.hide();
+    $( '#' + $(this).val() ).show('fast');
+  });
+});
+</script>
+
+	</body>
+</html>
